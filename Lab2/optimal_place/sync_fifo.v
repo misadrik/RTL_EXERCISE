@@ -3,5 +3,53 @@ module sync_fifo#(
     parameter FIFO_DEPTH = 5)(
     input RST_n,
     input CLK,
-    input[DATA_WIDTH-1:0]
+    input[DATA_WIDTH-1:0] DATA_IN;
+    input WEN;
+    input REN;
+    output reg[DATA_WIDTH-1:0] DATA_OUT;
+    output full;
+    output empty;
     );
+
+    reg[FIFO_DEPTH:0] wrptr;
+    reg[FIFO_DEPTH:0] rdptr;
+    reg[DATA_WIDTH-1:0] fifo_mem[0:2^FIFO_DEPTH -1];
+    wire wen_q;
+    wire ren_q;
+  
+    assign empty = ((wrptr - rdptr) == FIFO_DEPTH{1'b0}) ? 1'b1:1'b0;
+    assign full  = ((wrptr - rdptr) == {1'b0,(FIFO_DEPTH-1){1'b0}}) ? 1'b1:1'b0;
+
+    assign wen_q = (!full) & WEN;
+    assign ren_q = (!empty)& REN;
+
+    always@(posedge CLK or negedge RST_n) begin
+      if(!RST_n) begin
+        wrptr <= 0;
+      end
+      else if(wen_q) begin
+         wrptr <=  wrptr + 1;
+      end
+    end
+
+    always@(posedge CLK or negedge RST_n) begin
+      if(!RST_n) begin
+        fifo_mem <= 'b0;
+      end
+      else if(wen_q) begin
+        fifo_mem[wrptr] <= DATA_IN;
+      end
+    end
+
+    always@(posedge CLK or negedge RST_n) begin
+      if(!RST_n) begin
+        rdptr <= 0;
+      end
+      else if(ren_q) begin
+         rdptr <=  rdptr + 1;
+      end
+    end
+    
+    assign DATA_OUT = fifo_mem[rdptr];
+    
+endmodule : sync_fifo
