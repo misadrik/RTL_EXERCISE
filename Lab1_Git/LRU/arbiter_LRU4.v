@@ -58,6 +58,7 @@ module arbiter_LRU4(grant_vector, req_vector, enable, CLK, RST);
 
 //give grant
     always@(*) begin
+        grant_vector_pre <= 4'b0;
         if(RST)
             grant_vector_pre = 4'b0;
         else if(!enable)
