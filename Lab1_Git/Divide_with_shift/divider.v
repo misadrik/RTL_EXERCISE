@@ -51,7 +51,7 @@ module divider (
                     internal_val = internal_val + dividend[31-i];
                     quotient_internal = quotient_internal << 1;
 
-                    if(internal_val > divisor) begin
+                    if(internal_val >= divisor) begin
                         internal_val = internal_val - divisor;
                         quotient_internal = quotient_internal + 1;
                     end

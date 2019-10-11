@@ -24,8 +24,8 @@ module tb();
              dividend<= 0;
              divisor <= 0;
         end else begin
-             dividend<= $urandom % 32'hffff_ffff;
-             divisor <= $urandom % 32'hffff_ffff;
+             dividend<= $urandom % 1000;
+             divisor <= $urandom % 16;
         end
     end
     divider U_DIVIDER(.clk(clk), .rst_n(rst_n), .dividend(dividend), .divisor(divisor), .quotient(quotient));
