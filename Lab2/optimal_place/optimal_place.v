@@ -42,7 +42,7 @@ module optimal_place#(
 
 
     initial begin
-      fin = $fopen("example.ckt", "r");
+      fin = $fopen("input.txt", "r");
     end
     
     always@(posedge CLK or negedge RST_n) begin
@@ -51,7 +51,7 @@ module optimal_place#(
         reg_num_in_matrix <= 8'b0;
       end
       else if(!bfs_start) begin
-        fp = $fscanf(fin,"%d",file_in);
+        fp = $fscanf(fin,"%1d",file_in);
         matrix[in_cnt[5:0]] <= file_in;
         //$display("%d %d", file_in, matrix[in_cnt[5:0]-1]);
           if(file_in == 1)
