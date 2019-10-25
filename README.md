@@ -20,13 +20,13 @@
 
 **Optimal_place**
 
-The input is an 8*8 array with (0,1,2); 0 means empty, 1 represents reg, and 2 represent combination logic. This module is to find the point to place the Clock source(if possible) , which has minimum distance to all the regs.
+The input is an 8*8 array with (0,1,2); 0: empty, 1: reg, and 2: combination logic. This module is to find the point to place the Clock source(if possible) , which has minimum distance to all the registers.
 
 In my implementation, The maximum time takes to calculate the distance is O(N^2): 64\*64\*4 + C(constant time);
 
-The process to solve this problem is calculate all node of 0's distance. For each Node -> walk(get next node, x-1, x+1, y-1,y+1) and then check if they are reg(value =1) if they haven't checked. If they are, set vld and record distance. 
+The process to solve this problem is calculate all node of 0's distance. For each Node -> walk(get next node, x-1, x+1, y-1, y+1) and then check if they are reg(value =1). If they haven't checked, set vld and record distance, else ignore.
 
-So I design a sync_fifo, some functions like walk and judge. The hierarchy of the module is
+So I designed a sync_fifo, some functions like walk and judge. The **hierarchy** of the module is
 
 **tb** 
 
