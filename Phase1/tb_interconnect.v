@@ -26,7 +26,7 @@ module tb_interconnect();
     reg                     nicWrEn_3;
     wire [63:0]             d_out_3;
 
-    always #1 clk = ~clk;
+    always #2 clk = ~clk;
 
 initial begin
     clk = 1;
