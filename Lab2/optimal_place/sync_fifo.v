@@ -17,8 +17,8 @@ module sync_fifo#(
     wire wen_q;
     wire ren_q;
   
-    assign empty = ((wrptr - rdptr) == {FIFO_DEPTH{1'b0}}) ? 1'b1:1'b0;
-    assign full  = ((wrptr - rdptr) == {1'b1,{(FIFO_DEPTH-1){1'b0}}}) ? 1'b1:1'b0;
+    assign empty = ((wrptr - rdptr) == {(FIFO_DEPTH+1){1'b0}}) ? 1'b1:1'b0;
+    assign full  = ((wrptr - rdptr) == {1'b1,{FIFO_DEPTH{1'b0}}}) ? 1'b1:1'b0;
 
     assign wen_q = (!full) & WEN;
     assign ren_q = (!empty)& REN;
