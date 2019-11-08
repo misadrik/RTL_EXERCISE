@@ -23,8 +23,9 @@ module async_fifo#(
     assign wenq = wen &(~full);
     assign renq = ren &(~empty);
 
-    assign full = ((wrptr - rdptr_bin_2d) == {1'b1,{FIFO_DEPTH-1{1'b0}}}) ? 1'b1: 1'b0;
-    assign empty = ((wrptr_bin_2d - rdptr) == {FIFO_DEPTH{1'b0}} ? 1'b1: 1'b0;
+    assign empty  = (wrptr_gray_ss == rdptr_gray) ? 1'b1:1'b0;
+    assign full   = ((wrptr_gray[PTR_WIDTH:PTR_WIDTH-1] == (~rdptr_gray_ss[PTR_WIDTH:PTR_WIDTH-1])) && (wrptr_gray[PTR_WIDTH-2:0] == rdptr_gray_ss[PTR_WIDTH-2:0])) ? 1'b1:1'b0;
+
 
     always@(posedge clk_w or negedge rst_n) begin
         if(~rst_n) begin
@@ -57,7 +58,6 @@ module async_fifo#(
         end
     end
 
-    assign wrptr_bin_2d = wrptr_gray_2d^{1'b0, wrptr_gray_2d[FIFO_DEPTH:1]};
 
     always@(posedge clk_r or negedge rst_n) begin
         if(~rst_n) begin
@@ -88,8 +88,6 @@ module async_fifo#(
             rdptr_gray_2d <= rdptr_gray_1d;            
         end
     end
-
-    assign rdptr_bin_2d = rdptr_gray_2d^{1'b0, rdptr_gray_2d[FIFO_DEPTH:1]};
 
 
 endmodule : async_fifo
