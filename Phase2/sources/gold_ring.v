@@ -1,6 +1,6 @@
 module gold_ring (
     input                   clk,
-    input                   rst,
+    input                   reset,
 
     input                   node0_pesi,
     input  [63:0]           node0_pedi,
@@ -66,7 +66,7 @@ module gold_ring (
     wire                    ccws_2_1;
     wire                    ccwr_1_2;
 
-ROUTER_NODE NODE0(.clk(clk),.rst(rst), .polarity(node0_polarity),
+ROUTER_NODE NODE0(.clk(clk),.reset(reset), .polarity(node0_polarity),
                     .cwdi(cwd_3_0),.cwsi(cws_3_0),.cwri(cwr_0_3),
                     .cwdo(cwd_0_1),.cwso(cws_0_1),.cwro(cwr_1_0),   
                     .ccwdi(ccwd_1_0),.ccwsi(ccws_1_0),.ccwri(ccwr_0_1),
@@ -75,7 +75,7 @@ ROUTER_NODE NODE0(.clk(clk),.rst(rst), .polarity(node0_polarity),
                     .pero(node0_pero),.peso(node0_peso),.pedo(node0_pedo));
     
 
-ROUTER_NODE NODE1(.clk(clk),.rst(rst),.polarity(node1_polarity),
+ROUTER_NODE NODE1(.clk(clk),.reset(reset),.polarity(node1_polarity),
                     .cwdi(cwd_0_1),.cwsi(cws_0_1),.cwri(cwr_1_0),
                     .cwdo(cwd_1_2),.cwso(cws_1_2),.cwro(cwr_2_1),   
                     .ccwdi(ccwd_2_1),.ccwsi(ccws_2_1),.ccwri(ccwr_1_2),
@@ -83,7 +83,7 @@ ROUTER_NODE NODE1(.clk(clk),.rst(rst),.polarity(node1_polarity),
                     .pesi(node1_pesi),.pedi(node1_pedi),.peri(node1_peri),
                     .pero(node1_pero),.peso(node1_peso),.pedo(node1_pedo));
  
-ROUTER_NODE NODE3(.clk(clk),.rst(rst),.polarity(node2_polarity),
+ROUTER_NODE NODE2(.clk(clk),.reset(reset),.polarity(node2_polarity),
                     .cwdi(cwd_1_2),.cwsi(cws_1_2),.cwri(cwr_2_1),
                     .cwdo(cwd_2_3),.cwso(cws_2_3),.cwro(cwr_3_2),   
                     .ccwdi(ccwd_3_2),.ccwsi(ccws_3_2),.ccwri(ccwr_2_3),
@@ -91,7 +91,7 @@ ROUTER_NODE NODE3(.clk(clk),.rst(rst),.polarity(node2_polarity),
                     .pesi(node2_pesi),.pedi(node2_pedi),.peri(node2_peri),
                     .pero(node2_pero),.peso(node2_peso),.pedo(node2_pedo));
 
-ROUTER_NODE NODE3(.clk(clk),.rst(rst),.polarity(node3_polarity),
+ROUTER_NODE NODE3(.clk(clk),.reset(reset),.polarity(node3_polarity),
                     .cwdi(cwd_2_3),.cwsi(cws_2_3),.cwri(cwr_3_2),
                     .cwdo(cwd_3_0),.cwso(cws_3_0),.cwro(cwr_0_3),   
                     .ccwdi(ccwd_0_3),.ccwsi(ccws_0_3),.ccwri(ccwr_3_0),
