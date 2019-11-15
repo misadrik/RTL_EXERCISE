@@ -19,8 +19,8 @@ module tb();
     integer                       wrfp;
     integer                       rdfp;
 
-    always #1 wclk = ~wclk;
-    always #2 rclk = ~rclk;
+    always #10 wclk = ~wclk;
+    always #25 rclk = ~rclk;
 
     initial begin
         wrfp = $fopen("number_send.txt","w");
@@ -75,7 +75,7 @@ module tb();
             $fdisplay(rdfp,"%d",data_out);
         end
     end
-async_fifo U_ASYNC_FIFO(
+fifo#(16,3,8) U_ASYNC_FIFO(
     .rclk(rclk),
     .wclk(wclk),
     .reset(reset),
