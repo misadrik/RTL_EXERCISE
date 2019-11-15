@@ -57,11 +57,11 @@ module async_fifo#(
              wrptr_bin <= {PTR_WIDTH+1{1'b0}};
         end 
         else if(wen_q) begin
-             wrptr_bin <= wrptr_bin + 1;
+             wrptr_bin <= wrptr_bin + 1'b1;
         end
     end  
 
-    assign wrptr_bin_next = wrptr_bin + 1;
+    assign wrptr_bin_next = wrptr_bin + 1'b1;
 
     always @(posedge wclk or posedge reset) begin
         if(reset) begin
