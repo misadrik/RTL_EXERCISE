@@ -1,13 +1,13 @@
 `timescale 1ns/1ns
 
-module tb();
+module tb_squareroot();
     reg[15:0] Din;
     reg CLK;
     reg RST;
     wire[7:0] Dout;
     reg[7:0] squareroot;
 
-    parameter DUTY = 1;
+    parameter DUTY = 10;
 
     always #DUTY CLK = ~CLK;
 
@@ -15,6 +15,8 @@ module tb();
         CLK = 1;
         RST = 0;
  //       Din = $urandom() % 65536;
+        #1000;
+        $stop;
     end
    
     always@(posedge CLK) begin
