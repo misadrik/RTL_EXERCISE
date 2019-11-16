@@ -40,7 +40,7 @@ module RegFile(
 		integer i;
 		begin
 			for(i = 0; i < 32; i = i+1)
-				DFF[i] <= 0;
+				DFF[i] <= i;
 		end
 	endtask
 

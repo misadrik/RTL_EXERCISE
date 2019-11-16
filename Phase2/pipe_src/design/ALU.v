@@ -95,23 +95,23 @@ module ALU#(
         end
     end
 
-function [0:DATA_WIDTH-1] vadd; //000101
+function [0:DATA_WIDTH-1] vadd;
     input [0:DATA_WIDTH-1] ra;
     input [0:DATA_WIDTH-1] rb;
     input [0:1]            ww;
     begin
         if(ww == 2'b00)begin
-            for(i = 0; i < 63; i = i + 8) begin
+            for(i = 0; i <= 56; i = i + 8) begin
                 vadd[i+:8] = ra[i+:8] + rb[i+:8];
             end
         end
         else if(ww == 2'b01) begin
-            for(i = 0; i < 63; i = i + 16) begin
+            for(i = 0; i <= 48; i = i + 16) begin
                 vadd[i+:16] = ra[i+:16] + rb[i+:16];
             end         
         end
         else if(ww == 2'b10) begin
-            for(i = 0; i < 63; i = i + 32) begin
+            for(i = 0; i <= 32; i = i + 32) begin
                 vadd[i+:32] = ra[i+:32] + rb[i+:32];
             end     
         end
@@ -122,23 +122,23 @@ function [0:DATA_WIDTH-1] vadd; //000101
 
 endfunction 
 
-function [0:DATA_WIDTH-1] vsub;  //000110
+function [0:DATA_WIDTH-1] vsub;
     input [0:DATA_WIDTH-1] ra;
     input [0:DATA_WIDTH-1] rb;
     input [0:1]            ww;
     begin
         if(ww == 2'b00)begin
-            for(i = 0; i < 63; i = i + 8) begin
+            for(i = 0; i <= 56; i = i + 8) begin
                 vsub[i+:8] = ra[i+:8] - rb[i+:8];
             end
         end
         else if(ww == 2'b01) begin
-            for(i = 0; i < 63; i = i + 16) begin
+            for(i = 0; i <= 48; i = i + 16) begin
                 vsub[i+:16] = ra[i+:16] - rb[i+:16];
             end         
         end
         else if(ww == 2'b10) begin
-            for(i = 0; i < 63; i = i + 32) begin
+            for(i = 0; i <= 32; i = i + 32) begin
                 vsub[i+:32] = ra[i+:32] - rb[i+:32];
             end     
         end
@@ -154,7 +154,7 @@ endfunction
 //    b = 8'b0000_1010;
 //[0:7] c
 //c = a*b = 10000010
-function [0: DATA_WIDTH-1] vmuleuxy;   //000111
+function [0: DATA_WIDTH-1] vmuleuxy;
     input [0:DATA_WIDTH-1] ra;
     input [0:DATA_WIDTH-1] rb;
     input [0:1]            ww;
@@ -178,7 +178,7 @@ function [0: DATA_WIDTH-1] vmuleuxy;   //000111
     end
 endfunction
 
-function [0: DATA_WIDTH-1] vmulouxy;  //001000
+function [0: DATA_WIDTH-1] vmulouxy;
     input [0:DATA_WIDTH-1] ra;
     input [0:DATA_WIDTH-1] rb;
     input [0:1]            ww;
@@ -202,22 +202,22 @@ function [0: DATA_WIDTH-1] vmulouxy;  //001000
     end
 endfunction
 
-function [0: DATA_WIDTH-1] vrtthxy; //each unit rotated right by half of size  /001001
+function [0: DATA_WIDTH-1] vrtthxy; //each unit rotated right by half of size
     input [0:DATA_WIDTH-1] ra;
     input [0:1]            ww;
     begin
         if(ww == 2'b00)begin
-            for(i = 0; i < 63; i = i + 8) begin
+            for(i = 0; i <= 56; i = i + 8) begin
                 vrtthxy[i+:8] = {ra[i+4+:4], ra[i+:4]};
             end
         end
         else if(ww == 2'b01) begin
-            for(i = 0; i < 63; i = i + 16) begin
+            for(i = 0; i <=48; i = i + 16) begin
                 vrtthxy[i+:16] = {ra[(i+8)+:8], ra[i+:8]};
             end         
         end
         else if(ww == 2'b10) begin
-            for(i = 0; i < 63; i = i + 32) begin
+            for(i = 0; i <= 32; i = i + 32) begin
                 vrtthxy[i+:32] = {ra[(i+16)+:16], ra[i+:16]};
             end       
         end
@@ -227,7 +227,7 @@ function [0: DATA_WIDTH-1] vrtthxy; //each unit rotated right by half of size  /
     end
 endfunction
 
-function [0: DATA_WIDTH-1] vsllxy; //shift left //001010
+function [0: DATA_WIDTH-1] vsllxy; //shift left
     input [0:DATA_WIDTH-1] ra;
     input [0:DATA_WIDTH-1] rb;
     input [0:1]            ww;
@@ -236,19 +236,19 @@ function [0: DATA_WIDTH-1] vsllxy; //shift left //001010
 
     begin
         if(ww == 2'b00)begin
-            for(i = 0; i < 63; i = i + 8) begin
+            for(i = 0; i <= 56; i = i + 8) begin
                 shift_bits = rb[(i+5)+:3];
                 vsllxy[i+:8] = ra[i+:8] << shift_bits;
             end
         end
         else if(ww == 2'b01) begin
-            for(i = 0; i < 63; i = i + 16) begin
+            for(i = 0; i <=48; i = i + 16) begin
                 shift_bits = rb[(i+12)+:4];
                 vsllxy[i+:16] = ra[i+:16] << shift_bits;
             end         
         end
         else if(ww == 2'b10) begin
-            for(i = 0; i < 63; i = i + 32) begin
+            for(i = 0; i <= 32; i = i + 32) begin
                 shift_bits = rb[(i+27)+:5];
                 vsllxy[i+:32] = ra[i+:32] << shift_bits;
             end       
@@ -260,7 +260,7 @@ function [0: DATA_WIDTH-1] vsllxy; //shift left //001010
     end
 endfunction
 
-function [0: DATA_WIDTH-1] vsllixy; //shift left imme  //001011
+function [0: DATA_WIDTH-1] vsllixy; //shift left imme
     input [0:DATA_WIDTH-1] ra;
     input [0:4]            imme;
     input [0:1]            ww;
@@ -270,19 +270,19 @@ function [0: DATA_WIDTH-1] vsllixy; //shift left imme  //001011
     begin
         if(ww == 2'b00)begin
             shift_bits = imme[2:4];
-            for(i = 0; i < 63; i = i + 8) begin
+            for(i = 0; i <= 56; i = i + 8) begin
                 vsllixy[i+:8] = ra[i+:8] << shift_bits;
             end
         end
         else if(ww == 2'b01) begin
             shift_bits = imme[1:4];
-            for(i = 0; i < 63; i = i + 16) begin
+            for(i = 0; i <=48; i = i + 16) begin
                 vsllixy[i+:16] = ra[i+:16] << shift_bits;
             end         
         end
         else if(ww == 2'b10) begin
                 shift_bits = imme[0:4];
-            for(i = 0; i < 63; i = i + 32) begin
+            for(i = 0; i <= 32; i = i + 32) begin
                 vsllixy[i+:32] = ra[i+:32] << shift_bits;
             end       
         end
@@ -293,7 +293,7 @@ function [0: DATA_WIDTH-1] vsllixy; //shift left imme  //001011
     end
 endfunction
 
-function [0: DATA_WIDTH-1] vsrlxy; //shift right //001100
+function [0: DATA_WIDTH-1] vsrlxy; //shift right
     input [0:DATA_WIDTH-1] ra;
     input [0:DATA_WIDTH-1] rb;
     input [0:1]            ww;
@@ -302,19 +302,19 @@ function [0: DATA_WIDTH-1] vsrlxy; //shift right //001100
 
     begin
         if(ww == 2'b00)begin
-            for(i = 0; i < 63; i = i + 8) begin
+            for(i = 0; i <= 56; i = i + 8) begin
                 shift_bits = rb[(i+5)+:3];
                 vsrlxy[i+:8] = ra[i+:8] >> shift_bits;
             end
         end
         else if(ww == 2'b01) begin
-            for(i = 0; i < 63; i = i + 16) begin
+            for(i = 0; i <=48; i = i + 16) begin
                 shift_bits = rb[(i+12)+:4];
                 vsrlxy[i+:16] = ra[i+:16] >> shift_bits;
             end         
         end
         else if(ww == 2'b10) begin
-            for(i = 0; i < 63; i = i + 32) begin
+            for(i = 0; i <= 32; i = i + 32) begin
                 shift_bits = rb[(i+27)+:5];
                 vsrlxy[i+:32] = ra[i+:32] >> shift_bits;
             end       
@@ -337,19 +337,19 @@ function [0: DATA_WIDTH-1] vsrlixy; //shift right imme //001101
     begin
         if(ww == 2'b00)begin
             shift_bits = imme[2:4];
-            for(i = 0; i < 63; i = i + 8) begin
+            for(i = 0; i <= 56; i = i + 8) begin
                 vsrlixy[i+:8] = ra[i+:8] >> shift_bits;
             end
         end
         else if(ww == 2'b01) begin
             shift_bits = imme[1:4];
-            for(i = 0; i < 63; i = i + 16) begin
+            for(i = 0; i <=48; i = i + 16) begin
                 vsrlixy[i+:16] = ra[i+:16] >> shift_bits;
             end         
         end
         else if(ww == 2'b10) begin
                 shift_bits = imme[0:4];
-            for(i = 0; i < 63; i = i + 32) begin
+            for(i = 0; i <= 32; i = i + 32) begin
                 vsrlixy[i+:32] = ra[i+:32] >> shift_bits;
             end       
         end
@@ -369,19 +369,19 @@ function [0: DATA_WIDTH-1] vsraxy; //shift right arithmetic //001110
 
     begin
         if(ww == 2'b00)begin
-            for(i = 0; i < 63; i = i + 8) begin
+            for(i = 0; i <= 56; i = i + 8) begin
                 shift_bits = rb[(i+5)+:3];
                 vsraxy[i+:8] = $signed(ra[i+:8]) >>> shift_bits;
             end
         end
         else if(ww == 2'b01) begin
-            for(i = 0; i < 63; i = i + 16) begin
+            for(i = 0; i <=48; i = i + 16) begin
                 shift_bits = rb[(i+12)+:4];
                 vsraxy[i+:16] = $signed(ra[i+:16]) >>> shift_bits;
             end         
         end
         else if(ww == 2'b10) begin
-            for(i = 0; i < 63; i = i + 32) begin
+            for(i = 0; i <= 32; i = i + 32) begin
                 shift_bits = rb[(i+27)+:5];
                 vsraxy[i+:32] = $signed(ra[i+:32]) >>> shift_bits;
             end       
@@ -403,19 +403,19 @@ function [0: DATA_WIDTH-1] vsraixy; //shift right imme arithmetic  //001111
     begin
         if(ww == 2'b00)begin
             shift_bits = imme[2:4];
-            for(i = 0; i < 63; i = i + 8) begin
+            for(i = 0; i <= 56; i = i + 8) begin
                 vsraixy[i+:8] = $signed(ra[i+:8]) >>> shift_bits;
             end
         end
         else if(ww == 2'b01) begin
             shift_bits = imme[1:4];
-            for(i = 0; i < 63; i = i + 16) begin
+            for(i = 0; i <=48; i = i + 16) begin
                 vsraixy[i+:16] = $signed(ra[i+:16]) >>> shift_bits;
             end         
         end
         else if(ww == 2'b10) begin
             shift_bits = imme[0:4];
-            for(i = 0; i < 63; i = i + 32) begin
+            for(i = 0; i <= 32; i = i + 32) begin
                 vsraixy[i+:32] = $signed(ra[i+:32]) >>> shift_bits;
             end       
         end
@@ -425,6 +425,4 @@ function [0: DATA_WIDTH-1] vsraixy; //shift right imme arithmetic  //001111
         end
     end
 endfunction
-
-
 endmodule
