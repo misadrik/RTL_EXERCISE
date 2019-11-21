@@ -27,10 +27,15 @@ module NIC(
    reg net_in_ch_status;
    reg [63:0]  net_out_ch_buf;
    reg net_out_ch_status;
-
+   reg nicEN_1d;
+   reg [1:0] addr_1d;
    wire rst;
    assign rst = reset;
    /******************************** Interface with processor *******************/ 
+   always@(posedge clk) begin
+      nicEN_1d <= nicEN;
+      addr_1d  <= addr;
+   end
 
    always@(posedge clk) begin
     if(rst) begin
@@ -41,21 +46,52 @@ module NIC(
     end
    end
 
-   always@(posedge clk) begin
-    if(rst) begin
-        d_out <= 64'b0;
+   // always@(posedge clk) begin
+   //  if(rst) begin
+   //      d_out <= 64'b0;
+   //  end
+   //  else if((nicEN_1d == 1'b1) && (nicWrEn == 1'b0) &&(addr== 2'b00)) begin
+   //      d_out <= net_in_ch_buf;
+   //  end
+   //  else if((nicEN_1d == 1'b1) && (nicWrEn == 1'b0) &&(addr== 2'b01)) begin
+   //      d_out <= {net_in_ch_status, 63'b0};
+   //  end
+   //  else if((nicEN_1d == 1'b1) && (nicWrEn == 1'b0) &&(addr== 2'b11)) begin
+   //      d_out <= {net_out_ch_status, 63'b0};
+   //  end
+   //  else if(nicEN_1d == 1'b0)begin
+   //      d_out <= 64'b0;
+   //  end
+   // end
+  // always@(*) begin
+  //       d_out = 64'b0;
+  //   if((nicEN_1d == 1'b1) && (nicWrEn == 1'b0) &&(addr_1d== 2'b00)) begin
+  //       d_out = net_in_ch_buf;
+  //   end
+  //   else if((nicEN_1d == 1'b1) && (nicWrEn == 1'b0) &&(addr_1d== 2'b01)) begin
+  //       d_out = {net_in_ch_status, 63'b0};
+  //   end
+  //   else if((nicEN_1d == 1'b1) && (nicWrEn == 1'b0) &&(addr_1d== 2'b11)) begin
+  //       d_out = {net_out_ch_status, 63'b0};
+  //   end
+  //   else if(nicEN_1d == 1'b0)begin
+  //       d_out = 64'b0;
+  //   end
+  //  end
+
+  always@(*) begin
+        d_out = 64'b0;
+    if((nicEN_1d == 1'b1) && (addr_1d== 2'b00)) begin
+        d_out = net_in_ch_buf;
     end
-    else if((nicEN == 1'b1) && (nicWrEn == 1'b0) &&(addr== 2'b00)) begin
-        d_out <= net_in_ch_buf;
+    else if((nicEN_1d == 1'b1) && (addr_1d== 2'b01)) begin
+        d_out = {net_in_ch_status, 63'b0};
     end
-    else if((nicEN == 1'b1) && (nicWrEn == 1'b0) &&(addr== 2'b01)) begin
-        d_out <= {net_in_ch_status, 63'b0};
+    else if((nicEN_1d == 1'b1) && (addr_1d== 2'b11)) begin
+        d_out = {net_out_ch_status, 63'b0};
     end
-    else if((nicEN == 1'b1) && (nicWrEn == 1'b0) &&(addr== 2'b11)) begin
-        d_out <= {net_out_ch_status, 63'b0};
-    end
-    else if(nicEN == 1'b0)begin
-        d_out <= 64'b0;
+    else if(nicEN_1d == 1'b0)begin
+        d_out = 64'b0;
     end
    end
 
@@ -106,7 +142,7 @@ module NIC(
     else if((net_ri == 1'b1)&&(net_si == 1'b1) && (net_in_ch_status == 1'b0)) begin
         net_in_ch_status <= 1'b1;
     end
-    else if((nicEN == 1'b1) && (nicWrEn == 1'b0) &&(addr== 2'b00) && (net_in_ch_status == 1'b1)) begin
+    else if((nicEN_1d == 1'b1) && (nicWrEn == 1'b0) &&(addr_1d== 2'b00) && (net_in_ch_status == 1'b1)) begin  ///////////////////
         net_in_ch_status <= 1'b0;
     end
    end

@@ -26,6 +26,18 @@ module nic_top(
     output                  node3_nicWrEn,
     output                  node3_nicEN);
 
+    wire[63:0]              node0_pedi;
+    wire[63:0]              node1_pedi;
+    wire[63:0]              node2_pedi;
+    wire[63:0]              node3_pedi;
+
+    wire[63:0]              node0_pedo;
+    wire[63:0]              node1_pedo;
+    wire[63:0]              node2_pedo;
+    wire[63:0]              node3_pedo;
+
+
+
 NIC NIC_0(
 .clk(clk),.reset(reset),.addr(node0_addr),.d_in(node0_nicdi),.nicEN(node0_nicEN),.nicWrEn(node0_nicWrEn),.d_out(node0_nicdo),
 .net_so(node0_peso),.net_ro(node0_pero),.net_do(node0_pedo),.net_polarity(node0_polarity),.net_si(node0_pesi),.net_ri(node0_peri),.net_di(node0_pedi));

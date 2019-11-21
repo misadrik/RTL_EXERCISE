@@ -4,8 +4,7 @@ module CONTROL_UNIT(
     output [0:13]       cu_exalu_ctrl,
     output [0:1]        cu_exmem_ctrl,
     output[0:1]         id_br,            
-    output[0:4]         cu_wb_ctrl,
-    output [0:11]       cu_imme);
+    output[0:4]         cu_wb_ctrl);
 
     
     wire[0:5]           cu_opcode;
@@ -28,7 +27,6 @@ module CONTROL_UNIT(
     assign cu_ex_func = instr[26:31];
 //ex mem ctrl
     assign cu_exmem_ctrl = {cu_memwrite,cu_memread};
-    assign cu_imme = instr[16:31];
 
 //wb ctrl
     assign cu_wb_ctrl = {cu_regwrite,cu_memtoreg,cu_wb_ppp};

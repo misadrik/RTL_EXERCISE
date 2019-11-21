@@ -1,12 +1,12 @@
 module cardinal_processor(
-		input 							clk ,             // System Clock
-		input 							reset,           // System Reset
-		input 	[0:31]instruction,     // Instruction from Instruction Memory
-		input [0:63]dataIn,          // Data from Data Memory
-		output [0:31]pc,  // Program Counter
-		output [0:63]dataOut,         // Write Data to Data Memory
-		output [0:31]memAddr,         // Write Address for Data Memory 
-		output memEn,           // Data Memory Enable
+		input clk          ,             // System Clock
+		input reset        ,           // System Reset
+		input [0:31]instruction  ,     // Instruction from Instruction Memory
+		input [0:63]dataIn       ,          // Data from Data Memory
+		output [0:31]pc           ,  // Program Counter
+		output [0:63]dataOut      ,         // Write Data to Data Memory
+		output [0:31]memAddr      ,         // Write Address for Data Memory 
+		output memEn        ,           // Data Memory Enable
 		output memWrEn                // Data Memory Write Enable
 	);
 	
@@ -58,7 +58,7 @@ module cardinal_processor(
 	wire branch;
 	wire zero;
 	
-	CONTROL_UNIT decoder(.instr(ID_inst),.if2id_flush(ID_flush),.cu_exalu_ctrl(EX_ctrl[2:15]),.cu_exmem_ctrl(EX_ctrl[0:1]),.id_br({beq,bneq}),
+	CONTROL_UNIT decoder(.instr(ID_inst),.if2id_flush(ID_flush),.cu_exalu_ctrl(EX_ctrl[2:15]),.cu_exmem_ctrl(EX_ctrl[0:1]),.id_br({bneq,beq}),
 						.cu_wb_ctrl(WB_ctrl));
 	
 	assign branch = beq || bneq;
@@ -76,8 +76,25 @@ module cardinal_processor(
 	
 	assign ID_sel_dA = (rA == WB_rD) && RegWrEn;
 	assign ID_sel_dB = (rB == WB_rD) && RegWrEn;
-	assign dA_true = ID_sel_dA ? wdata : dA;
-	assign dB_true = ID_sel_dB ? wdata : dB;
+
+	assign dA_true[0:7]   = (ID_sel_dA && WB_PPP[0]) ?  wdata[0:7]  : dA[0:7];
+	assign dA_true[8:15]  = (ID_sel_dA && WB_PPP[1]) ?  wdata[8:15] : dA[8:15];
+	assign dA_true[16:23] = (ID_sel_dA && WB_PPP[2]) ? wdata[16:23] : dA[16:23];
+	assign dA_true[24:31] = (ID_sel_dA && WB_PPP[3]) ? wdata[24:31] : dA[24:31];
+	assign dA_true[32:39] = (ID_sel_dA && WB_PPP[4]) ? wdata[32:39] : dA[32:39];
+	assign dA_true[40:47] = (ID_sel_dA && WB_PPP[5]) ? wdata[40:47] : dA[40:47];
+	assign dA_true[48:55] = (ID_sel_dA && WB_PPP[6]) ? wdata[48:55] : dA[48:55];
+	assign dA_true[56:63] = (ID_sel_dA && WB_PPP[7]) ? wdata[56:63] : dA[56:63];
+
+	assign dB_true[0:7]   = (ID_sel_dB && WB_PPP[0]) ?  wdata[0:7]  : dB[0:7];
+	assign dB_true[8:15]  = (ID_sel_dB && WB_PPP[1]) ?  wdata[8:15] : dB[8:15];
+	assign dB_true[16:23] = (ID_sel_dB && WB_PPP[2]) ? wdata[16:23] : dB[16:23];
+	assign dB_true[24:31] = (ID_sel_dB && WB_PPP[3]) ? wdata[24:31] : dB[24:31];
+	assign dB_true[32:39] = (ID_sel_dB && WB_PPP[4]) ? wdata[32:39] : dB[32:39];
+	assign dB_true[40:47] = (ID_sel_dB && WB_PPP[5]) ? wdata[40:47] : dB[40:47];
+	assign dB_true[48:55] = (ID_sel_dB && WB_PPP[6]) ? wdata[48:55] : dB[48:55];
+	assign dB_true[56:63] = (ID_sel_dB && WB_PPP[7]) ? wdata[56:63] : dB[56:63];
+
 	assign zero = dA_true == 0;
 	assign flush = (zero && beq) || (!zero && bneq);
 	
@@ -108,12 +125,28 @@ module cardinal_processor(
 	
 	assign EX_sel_dA = (EX_rA == WB_rD) && RegWrEn;
 	assign EX_sel_dB = (EX_rB == WB_rD) && RegWrEn;
-	assign EX_dA_true = EX_sel_dA ? wdata : EX_dA;
-	assign EX_dB_true = EX_sel_dB ? wdata : EX_dB;
+
+	assign EX_dA_true[0:7]   = (EX_sel_dA && WB_PPP[0]) ?  wdata[0:7]  : EX_dA[0:7];
+	assign EX_dA_true[8:15]  = (EX_sel_dA && WB_PPP[1]) ?  wdata[8:15] : EX_dA[8:15];
+	assign EX_dA_true[16:23] = (EX_sel_dA && WB_PPP[2]) ? wdata[16:23] : EX_dA[16:23];
+	assign EX_dA_true[24:31] = (EX_sel_dA && WB_PPP[3]) ? wdata[24:31] : EX_dA[24:31];
+	assign EX_dA_true[32:39] = (EX_sel_dA && WB_PPP[4]) ? wdata[32:39] : EX_dA[32:39];
+	assign EX_dA_true[40:47] = (EX_sel_dA && WB_PPP[5]) ? wdata[40:47] : EX_dA[40:47];
+	assign EX_dA_true[48:55] = (EX_sel_dA && WB_PPP[6]) ? wdata[48:55] : EX_dA[48:55];
+	assign EX_dA_true[56:63] = (EX_sel_dA && WB_PPP[7]) ? wdata[56:63] : EX_dA[56:63];
+
+	assign EX_dB_true[0:7]   = (EX_sel_dB && WB_PPP[0]) ?  wdata[0:7]  : EX_dB[0:7];
+	assign EX_dB_true[8:15]  = (EX_sel_dB && WB_PPP[1]) ?  wdata[8:15] : EX_dB[8:15];
+	assign EX_dB_true[16:23] = (EX_sel_dB && WB_PPP[2]) ? wdata[16:23] : EX_dB[16:23];
+	assign EX_dB_true[24:31] = (EX_sel_dB && WB_PPP[3]) ? wdata[24:31] : EX_dB[24:31];
+	assign EX_dB_true[32:39] = (EX_sel_dB && WB_PPP[4]) ? wdata[32:39] : EX_dB[32:39];
+	assign EX_dB_true[40:47] = (EX_sel_dB && WB_PPP[5]) ? wdata[40:47] : EX_dB[40:47];
+	assign EX_dB_true[48:55] = (EX_sel_dB && WB_PPP[6]) ? wdata[48:55] : EX_dB[48:55];
+	assign EX_dB_true[56:63] = (EX_sel_dB && WB_PPP[7]) ? wdata[56:63] : EX_dB[56:63];
 	
 	assign shift_amount = EX_rB;
 	assign dataOut = EX_dA_true;
-	assign memAddr = EX_IMM;
+	assign memAddr = {16'b0,EX_IMM};
 	assign memEn = EX_EX_ctrl[1] || EX_EX_ctrl[0];
 	assign memWrEn = EX_EX_ctrl[0];
 	assign alu_op = EX_EX_ctrl[2:15];
@@ -137,7 +170,7 @@ module cardinal_processor(
 	
 	wire mem2Reg;
 	
-	assign RegWrEn = WB_WB_ctrl[0];
+	assign RegWrEn = WB_WB_ctrl[0] && (WB_rD != 0);
 	assign mem2Reg = WB_WB_ctrl[1];
 	assign wdata = mem2Reg ? dataIn : WB_alu_out;
 
