@@ -184,7 +184,7 @@ function [0: DATA_WIDTH-1] vmulouxy;
     input [0:1]            ww;
     begin
          if(ww == 2'b00)begin
-            vmulouxy[0:15]  = ra[8:15]  * rb[8:15];
+            vmulouxy[0:15]  = ra[8:15]   * rb[8:15];
             vmulouxy[16:31] = ra[24:31] * rb[24:31];
             vmulouxy[32:47] = ra[40:47] * rb[40:47];
             vmulouxy[48:63] = ra[56:63] * rb[56:63];
@@ -208,7 +208,7 @@ function [0: DATA_WIDTH-1] vrtthxy; //each unit rotated right by half of size
     begin
         if(ww == 2'b00)begin
             for(i = 0; i <= 56; i = i + 8) begin
-                vrtthxy[i+:8] = {ra[i+4+:4], ra[i+:4]};
+                vrtthxy[i+:8] = {ra[(i+4)+:4], ra[i+:4]};
             end
         end
         else if(ww == 2'b01) begin
@@ -222,7 +222,7 @@ function [0: DATA_WIDTH-1] vrtthxy; //each unit rotated right by half of size
             end       
         end
         else if(ww == 2'b11) begin
-            vrtthxy  = {ra[32:63], ra[0:32]};   
+            vrtthxy  = {ra[32:63], ra[0:31]};   
         end
     end
 endfunction
