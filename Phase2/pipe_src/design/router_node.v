@@ -83,4 +83,4 @@ assign ccw_out_buf_in = (ccw2ccw_gnt == 1'b1) ? ccw_dout :
 OUTPUT_CTRL U_CCW_OUT_CTRL(.clk(clk),.rst(rst),.polarity(polarity),.path_rdy(cwro),.din(ccw_out_buf_in),
     .req_0(ccw2ccw_req),.req_1(pe2ccw_req),.gnt_0(ccw2ccw_gnt),.gnt_1(ccw2pe_gnt),.dout(ccwdo),.dout_vld(ccwso));
 
-endmodule : ROUTER_NODE
+endmodule

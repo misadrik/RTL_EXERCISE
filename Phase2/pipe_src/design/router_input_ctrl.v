@@ -40,8 +40,8 @@ module ROUTER_INPUT_CTRL (
 
     always@(posedge clk) begin
         if(rst) begin
-            in_buffer[0] = 64'b0;
-            in_buffer[1] = 64'b0;
+            in_buffer[0] <= 64'b0;
+            in_buffer[1] <= 64'b0;
         end
         else if(polarity && in_buffer_en[1] && in2ch_rdy && ch2in_vld && ch2in_din[63]) begin
             in_buffer[1] <= ch2in_din;

@@ -112,4 +112,4 @@ always@(*) begin
     end
 end
 
-endmodule : OUTPUT_CTRL
+endmodule
