@@ -18,6 +18,7 @@
 | SquareRoot        | Calculate Square Root based on Shift                       |
 | **Optimal_place** | **Implement Breath First Search with Verilog**             |
 
+
 **Optimal_place**
 
 The input is an 8*8 array with (0,1,2); 0: empty, 1: reg, and 2: combination logic. This module is to find the point to place the Clock source(if possible) , which has minimum distance to all the registers.
@@ -44,5 +45,16 @@ So I designed a sync_fifo, some functions like walk and judge. The **hierarchy**
 
 复杂度应该按O(N^2)来算， 最多64个node需要BFS, 每个点做64*4次+64个clock算总cost.
 
+## Lab3
+Asyc_FIFO
+
+
+## Lab5 Simplified AXI
+
+## Phase1
+Cardinal Router
+
+## Phase2
+Gold Processor with Cardinal Router
 
 
